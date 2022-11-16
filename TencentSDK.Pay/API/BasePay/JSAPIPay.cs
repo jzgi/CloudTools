@@ -43,6 +43,19 @@ namespace TencentSDK.Pay
             }
             return keys;
         }
+        /// <summary>
+        /// JSAPI下单接口
+        /// <para>在微信支付服务后台生成JSAPI预支付交易单，返回预支付交易会话标识</para>
+        /// </summary>
+        /// <param name="data">微信支付需要POST的Data数据</param>
+        /// <param name="timeOut">超时时间，单位为ms </param>
+        /// <returns></returns>
+        public async Task<JsApiReturnJson> JsApiAsync(TransactionsRequestData data, int timeOut = Config.TIME_OUT)
+        {
+            var url = Config.TenPayV3Host + "/v3/pay/transactions/jsapi";
+            TenPayAPIRequest tenPayApiRequest = new(_tenPaySetting);
+            return await tenPayApiRequest.FetchJsonMessageAsync<JsApiReturnJson>(url, data, timeOut,verifyTenPaySign:new VerifyTenPaySign());
+        }
 
     }
 }
