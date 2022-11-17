@@ -10,7 +10,7 @@ namespace TencentSDK.Pay.Test
     [TestClass]
     public class BaseTenPayTest
     {
-        protected ITenPaySetting tenPaySetting;
+        protected ITenPaySetting _tenPaySetting;
         public BaseTenPayTest()
         {
             ReadSetting();
@@ -32,7 +32,7 @@ namespace TencentSDK.Pay.Test
                     //从文件读取并显示行，直到文件的末尾
                     strData = sr.ReadToEnd();
                 }
-                tenPaySetting = JsonSerializer.Deserialize<TenPaySetting>(strData);
+                _tenPaySetting = JsonSerializer.Deserialize<TenPaySetting>(strData);
             }
             catch (Exception e)
             {

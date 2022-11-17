@@ -19,7 +19,9 @@ namespace TencentSDK.Pay
     public class Detail
     {
         public object location { get; set; }
-        public string[] value { get; set; }
+        public int value { get; set; }
+
+
     }
 
 }

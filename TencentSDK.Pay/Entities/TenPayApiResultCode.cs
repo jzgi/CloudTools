@@ -108,7 +108,8 @@ namespace TencentSDK.Pay
                 }
                 else
                 {
-                    //失败，如：{"code":"PARAM_ERROR","detail":{"location":null,"value":["/body/payer/openid"]},"message":"请求中含有未在API文档中定义的参数"}
+                    //"{\"code\":\"PARAM_ERROR\",\"detail\":{\"location\":\"uri_template\",\"value\":36},\"message\":\"输入源“/uri_template/transaction_id”映射到值字段“微信支付订单号”字符串规则校验失败，字节数 36，大于最大值 32\"}"
+                    //"{\"code\":\"PARAM_ERROR\",\"message\":\"微信订单号非法\"}"
                     var responseErrorMessage = JsonSerializer.Deserialize<ResponseErrorJsonResult>(responseContent);
                     if (responseErrorMessage != null)
                     {

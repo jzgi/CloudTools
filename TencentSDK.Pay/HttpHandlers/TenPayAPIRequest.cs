@@ -144,7 +144,14 @@ namespace TencentSDK.Pay
                     var wechatpaySignatureBase64 = responseMessage.Headers.GetValues("Wechatpay-Signature").First();//后续需要base64解码
                     var wechatpaySerial = responseMessage.Headers.GetValues("Wechatpay-Serial").First();
 
-                    result = JsonSerializer.Deserialize<T>(content);
+                    if (string.IsNullOrEmpty(content))
+                    {
+                        result = GetInstance<T>(true);
+                    }
+                    else
+                    {
+                        result = JsonSerializer.Deserialize<T>(content);
+                    }
 
                     if (verifyTenPaySign != null)
                     {
