@@ -31,6 +31,19 @@ namespace TencentSDK.Pay
     public class TenPaySignHelper
     {
         /// <summary>
+        /// 获取调起支付所需的签名
+        /// </summary>
+        /// <param name="timeStamp">时间戳</param>
+        /// <param name="nonceStr">随机串</param>
+        /// <param name="package">格式：prepay_id={0}</param>
+        /// <param name="privateKey">商户证书私钥</param>
+        /// <returns></returns>
+        public static string CreatePaySign(string timeStamp, string nonceStr, string package, string appId, string privateKey)
+        {
+            string contentForSign = $"{appId}\n{timeStamp}\n{nonceStr}\n{package}\n";
+            return CreateSign(contentForSign, privateKey);
+        }
+        /// <summary>
         /// 微信支付签名方法
         /// </summary>
         /// <param name="message"></param>

@@ -57,10 +57,10 @@ namespace TencentSDK.Pay.Test.API
         public void OrderQueryByTransactionIdAsyncTest()
         {
 
-            var transaction_id = "1217752501201407033233368018";//TODO: 这里应该填上已有订单的transaction_id
+            var transaction_id = "4200001673202211213161114305";//TODO: 这里应该填上已有订单的transaction_id
 
             JSAPIPay basePayApis = new JSAPIPay(_tenPaySetting);
-            var result = basePayApis.OrderQueryByTransactionIdAsync(transaction_id, _tenPaySetting.TenPayV3_MchId).GetAwaiter().GetResult();
+            var result = basePayApis.OrderQueryByTransactionIdAsync(transaction_id, _tenPaySetting.TenPayV3_MchId, verifyTenPaySign: new VerifyTenPaySign()).GetAwaiter().GetResult();
 
             Console.WriteLine("微信支付 V3 订单查询结果：" + result.ToString());
 

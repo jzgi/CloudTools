@@ -64,14 +64,16 @@ namespace TencentSDK.Pay
         /// <param name="transaction_id"> 微信支付系统生成的订单号 示例值：1217752501201407033233368018</param>
         /// <param name="mchid">直连商户的商户号，由微信支付生成并下发。 示例值：1230000109</param>
         /// <param name="timeOut">超时时间，单位为ms</param>
+        /// <param name="verifyTenPaySign">验证消息签名</param>
         /// <returns></returns>
-        public async Task<OrderReturnJson> OrderQueryByTransactionIdAsync(string transaction_id, string mchid, int timeOut = Config.TIME_OUT)
+        /// <summary>
+        public async Task<OrderReturnJson> OrderQueryByTransactionIdAsync(string transaction_id, string mchid, int timeOut = Config.TIME_OUT, IVerifyTenPaySign verifyTenPaySign = null)
         {
             try
             {
                 var url = Config.TenPayV3Host + $"/v3/pay/transactions/id/{transaction_id}?mchid={mchid}";
                 TenPayAPIRequest tenPayApiRequest = new(_tenPaySetting);
-                return await tenPayApiRequest.FetchJsonMessageAsync<OrderReturnJson>(url, null, timeOut, ApiRequestMethod.GET);
+                return await tenPayApiRequest.FetchJsonMessageAsync<OrderReturnJson>(url, null, timeOut, ApiRequestMethod.GET, verifyTenPaySign);
             }
             catch (Exception ex)
             {
