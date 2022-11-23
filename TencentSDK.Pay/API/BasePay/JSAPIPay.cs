@@ -126,5 +126,43 @@ namespace TencentSDK.Pay
                 return new JsonResult() { ResultCode = new TenPayApiResultCode() { ErrorMessage = ex.Message } };
             }
         }
+        /// <summary>
+        /// 申请退款接口
+        /// </summary>
+        /// <param name="data">请求数据</param>
+        /// <param name="timeOut">超时时间，单位为ms</param>
+        /// <returns></returns>
+        public async Task<RefundReturnJson> RefundAsync(RefundRequsetData data, int timeOut = Config.TIME_OUT, IVerifyTenPaySign verifyTenPaySign = null)
+        {
+            try
+            {
+                var url = $"{Config.TenPayV3Host}/v3/refund/domestic/refunds";
+                TenPayAPIRequest tenPayApiRequest = new(_tenPaySetting);
+                return await tenPayApiRequest.FetchJsonMessageAsync<RefundReturnJson>(url, data, timeOut, verifyTenPaySign: verifyTenPaySign);
+            }
+            catch (Exception ex)
+            {
+                return new RefundReturnJson() { ResultCode = new TenPayApiResultCode() { ErrorMessage = ex.Message } };
+            }
+        }
+        /// <summary>
+        /// 查询单笔退款接口
+        /// </summary>
+        /// <param name="out_refund_no">商户系统内部的退款单号，商户系统内部唯一，只能是数字、大小写字母_-|*@ ，同一退款单号多次请求只退一笔。示例值：1217752501201407033233368018</param>
+        /// <param name="timeOut">超时时间，单位为ms</param>
+        /// <returns></returns>
+        public async Task<RefundReturnJson> RefundQueryAsync(string out_refund_no, int timeOut = Config.TIME_OUT, IVerifyTenPaySign verifyTenPaySign = null)
+        {
+            try
+            {
+                var url = $"{Config.TenPayV3Host}/v3/refund/domestic/refunds/{out_refund_no}";
+                TenPayAPIRequest tenPayApiRequest = new(_tenPaySetting);
+                return await tenPayApiRequest.FetchJsonMessageAsync<RefundReturnJson>(url, null, timeOut, ApiRequestMethod.GET, verifyTenPaySign: verifyTenPaySign);
+            }
+            catch (Exception ex)
+            {
+                return new RefundReturnJson() { ResultCode = new TenPayApiResultCode() { ErrorMessage = ex.Message } };
+            }
+        }
     }
 }

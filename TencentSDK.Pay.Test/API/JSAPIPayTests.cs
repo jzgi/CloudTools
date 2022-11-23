@@ -53,7 +53,7 @@ namespace TencentSDK.Pay.Test.API
         }
 
 
-        [TestMethod()]
+        [TestMethod]
         public void OrderQueryByTransactionIdAsyncTest()
         {
 
@@ -69,7 +69,7 @@ namespace TencentSDK.Pay.Test.API
             Assert.IsTrue(result.VerifySignSuccess == true);//通过验证
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void OrderQueryByOutTradeNoAsyncTest()
         {
 
@@ -92,16 +92,59 @@ namespace TencentSDK.Pay.Test.API
             Assert.IsTrue(result.VerifySignSuccess == true);//通过验证
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CloseOrderAsyncTest()
         {
 
-            var out_trade_no = "out_trade_no";//TODO: 这里应该填上已有订单的out_trade_no
+            if (jsApiRequestData == null)
+            {
+                JsAPIAsyncTest();
+            }
+
+            var out_trade_no = jsApiRequestData.out_trade_no;// 这里应该填上已有订单的out_trade_no
+            // var out_trade_no = "162077360920221121203811119660";//TODO: 这里应该填上已有订单的out_trade_no
 
             JSAPIPay basePayApis = new JSAPIPay(_tenPaySetting);
             var result = basePayApis.CloseOrderAsync(out_trade_no, _tenPaySetting.TenPayV3_MchId).GetAwaiter().GetResult();
 
             Console.WriteLine("微信支付 V3 订单关闭结果：" + result.ToString());
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.ResultCode.Success);
+            // Assert.IsTrue(result.VerifySignSuccess == true);//通过验证
+        }
+
+        [TestMethod]
+        public void RefundAsyncTest()
+        {
+
+            var transaction_id = "4200001673202211213161114305";//TODO: 应该填入订单的transaction_id
+            var out_refund_no = "162077360920221121203811119660";//TODO: out_refund_no
+
+            JSAPIPay basePayApis = new JSAPIPay(_tenPaySetting);
+
+            //查询订单获得订单金额
+            var total = basePayApis.OrderQueryByOutTradeNoAsync(out_refund_no, _tenPaySetting.TenPayV3_MchId).GetAwaiter().GetResult().amount.total;
+
+            //请求退款
+            RefundRequsetData requestData = new(transaction_id, null, out_refund_no, "退款单元测试", null, null, new(total, null, total, "CNY"), null);
+            var result = basePayApis.RefundAsync(requestData, verifyTenPaySign: new VerifyTenPaySign()).GetAwaiter().GetResult();
+
+            Console.WriteLine("微信支付 V3 退款结果：" + result.ToString());
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.ResultCode.Success);
+            Assert.IsTrue(result.VerifySignSuccess == true);//通过验证
+        }
+        [TestMethod]
+        public void RefundQueryAsyncTest()
+        {
+            var out_refund_no = "162077360920221121203811119660";//TODO: 这里应该填上已有订单的out_refund_no
+
+            JSAPIPay basePayApis = new JSAPIPay(_tenPaySetting);
+            var result = basePayApis.RefundQueryAsync(out_refund_no, verifyTenPaySign: new VerifyTenPaySign()).GetAwaiter().GetResult();
+
+            Console.WriteLine("微信支付 V3 退款查询结果：" + result.ToString());
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.ResultCode.Success);

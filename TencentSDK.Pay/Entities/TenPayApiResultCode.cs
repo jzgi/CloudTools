@@ -45,6 +45,7 @@ namespace TencentSDK.Pay
                                     new TenPayApiResultCode("400","INVALID_REQUEST","openid与appid不匹配","请使用appid下的openid",false),
                                     new TenPayApiResultCode("400","INVALID_REQUEST","活动已结束或未激活","请检查批次状态",false),
                                     new TenPayApiResultCode("400","INVALID_REQUEST","非法的商户号","请检查商户号是否正确",false),
+                                    new TenPayApiResultCode("400","ORDERPAID","该订单已支付","请检查订单号是否正确",false),
                                     new TenPayApiResultCode("400","APPID_MCHID_NOT_MATCH","商户号与appid不匹配","请绑定调用接口的商户号和appid后重试",false)
                                     }},
                     {"401", new[] { new TenPayApiResultCode("401","SIGN_ERROR","签名错误","请检查签名参数和方法是否都符合签名算法要求"),
@@ -66,7 +67,7 @@ namespace TencentSDK.Pay
                                     new TenPayApiResultCode("403","REQUEST_BLOCKED","活动未开始或已结束","该活动未开始或已结束"),
                                     new TenPayApiResultCode("403","NO_AUTH","你配置的信息需要开通特殊权限","请参考：QA方案",false)
                                     }},
-                    {"404", new[] { new TenPayApiResultCode("404","ORDER_NO_TEXIST","订单不存在","请检查订单是否发起过交易"),
+                    {"404", new[] { new TenPayApiResultCode("404","ORDER_NOT_EXIST","订单不存在","请检查订单是否发起过交易"),
 
                                     new TenPayApiResultCode("404","RESOURCE_NOT_EXISTS","批次不存在","请检查批次ID是否正确",false),
                                     }},
@@ -110,6 +111,7 @@ namespace TencentSDK.Pay
                 {
                     //"{\"code\":\"PARAM_ERROR\",\"detail\":{\"location\":\"uri_template\",\"value\":36},\"message\":\"输入源“/uri_template/transaction_id”映射到值字段“微信支付订单号”字符串规则校验失败，字节数 36，大于最大值 32\"}"
                     //"{\"code\":\"PARAM_ERROR\",\"message\":\"微信订单号非法\"}"
+                    //"{\"code\":\"ORDER_NOT_EXIST\",\"message\":\"订单不存在\"}"
                     var responseErrorMessage = JsonSerializer.Deserialize<ResponseErrorJsonResult>(responseContent);
                     if (responseErrorMessage != null)
                     {
