@@ -1,11 +1,11 @@
 namespace TencentSDK.Pay
 {
-    public class JSAPIPay
+    public class JsPayApis
     {
         private ITenPaySetting _tenPaySetting;
 
 
-        public JSAPIPay(ITenPaySetting tenPaySetting)
+        public JsPayApis(ITenPaySetting tenPaySetting)
         {
             _tenPaySetting = tenPaySetting;
         }
@@ -50,7 +50,7 @@ namespace TencentSDK.Pay
         /// <param name="data">微信支付需要POST的Data数据</param>
         /// <param name="timeOut">超时时间，单位为ms </param>
         /// <returns></returns>
-        public async Task<JsApiReturnJson> JsAPIAsync(TransactionsRequestData data, int timeOut = Config.TIME_OUT)
+        public async Task<JsApiReturnJson> JsPayAsync(TransactionsRequestData data, int timeOut = Config.TIME_OUT)
         {
             var url = Config.TenPayV3Host + "/v3/pay/transactions/jsapi";
             TenPayAPIRequest tenPayApiRequest = new(_tenPaySetting);

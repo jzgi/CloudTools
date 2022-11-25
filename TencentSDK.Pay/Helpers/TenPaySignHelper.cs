@@ -17,8 +17,8 @@ namespace TencentSDK.Pay
     {
         public async Task<string> GetAPIv3PublicKeyAsync(ITenPaySetting tenPaySetting, string wechatpaySerial)
         {
-            JSAPIPay jSAPIPay = new JSAPIPay(tenPaySetting);
-            var keys = await jSAPIPay.GetPublicKeysAsync();
+            JsPayApis jsPayApis = new(tenPaySetting);
+            var keys = await jsPayApis.GetPublicKeysAsync();
             if (keys.TryGetValue(wechatpaySerial, out string publicKey))
             {
                 return publicKey;
